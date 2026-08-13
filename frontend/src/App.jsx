@@ -215,7 +215,7 @@ function Tasks({ token, setToken }) {
             <div 
               key={task.id} 
               className={`task-item animate-slide-up ${task.status === 'completed' ? 'completed' : ''}`}
-              style={{ animationDelay: \`\${0.1 + (idx * 0.05)}s\` }}
+              style={{ animationDelay: `${0.1 + (idx * 0.05)}s` }}
             >
               <input 
                 type="checkbox" 
