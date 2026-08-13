@@ -28,5 +28,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           source: "frontend/dist/*"
-          target: "~/public_html"
+          target: "~/taskmcp.promptendweb.com"
           strip_components: 2
