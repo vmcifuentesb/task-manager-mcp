@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: task-manager-mcp-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: JWT_SECRET
+        generateValue: true
+      - key: INITIAL_USER_EMAIL
+        value: victorcifuentes4ceis@gmail.com
+      - key: INITIAL_USER_PASSWORD
+        value: Vmcifuentes2509_.
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
