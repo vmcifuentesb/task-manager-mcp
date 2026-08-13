@@ -161,9 +161,15 @@ mcpServer.tool('delete_task', 'Delete a task by ID', {
 let mcpTransport;
 
 app.get('/mcp/sse', async (req, res) => {
-  console.log('MCP SSE Client connected');
-  mcpTransport = new SSEServerTransport('/mcp/messages', res);
-  await mcpServer.connect(mcpTransport);
+  try {
+    console.log('MCP SSE Client connected');
+    const endpoint = req.protocol + '://' + req.get('host') + '/mcp/messages';
+    mcpTransport = new SSEServerTransport(endpoint, res);
+    await mcpServer.connect(mcpTransport);
+  } catch (err) {
+    console.error('SSE Error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/mcp/messages', async (req, res) => {
