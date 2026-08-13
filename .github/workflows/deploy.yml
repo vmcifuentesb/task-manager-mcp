@@ -22,20 +22,11 @@ jobs:
           npm install
           npm run build
 
-      - name: Create target directory
-        uses: appleboy/ssh-action@v0.1.10
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.SERVER_HOST }}
+          server: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          script: mkdir -p ~/taskmcp.promptendweb.com
-
-      - name: Copy files via scp to Shared Hosting
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          source: "frontend/dist/*"
-          target: "~/taskmcp.promptendweb.com"
-          strip_components: 2
+          local-dir: ./frontend/dist/
+          server-dir: ./taskmcp.promptendweb.com/
