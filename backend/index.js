@@ -163,9 +163,19 @@ let mcpTransport;
 app.get('/mcp/sse', async (req, res) => {
   try {
     console.log('MCP SSE Client connected');
+    if (mcpTransport) {
+      try { await mcpServer.close(); } catch (e) {}
+      try { await mcpTransport.close(); } catch (e) {}
+    }
     const endpoint = req.protocol + '://' + req.get('host') + '/mcp/messages';
     mcpTransport = new SSEServerTransport(endpoint, res);
     await mcpServer.connect(mcpTransport);
+    
+    req.on('close', async () => {
+      console.log('MCP SSE Client disconnected');
+      try { await mcpServer.close(); } catch (e) {}
+      mcpTransport = null;
+    });
   } catch (err) {
     console.error('SSE Error:', err);
     res.status(500).json({ error: err.message });
